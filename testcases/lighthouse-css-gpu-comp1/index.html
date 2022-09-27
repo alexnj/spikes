@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    html,
+    body {
+      overflow: hidden;
+      background: #a02615;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sun {
+      position: absolute;
+      top: -75px;
+      left: -75px;
+      width: 500px;
+      height: 500px;
+    }
+
+    .sun-ray {
+      width: 250px;
+      height: 40px;
+      background: url(https://sergeche.github.io/gpu-article-assets/images/ray.png) no-repeat;
+      background-size: cover;
+
+      /* align rays with sun center */
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-top: -20px;
+      transform-origin: 0 50%;
+
+      /* tell browser to properly optimize compositing */
+      will-change: transform;
+    }
+  </style>
+</head>
+
+<body translate="no">
+  <div class="sun"></div>
+
+  <script id="rendered-js">
+    const container = document.querySelector('.sun');
+    const raysAmount = 12;
+    const angularVelocity = 0.5;
+    const downscale = 0.1;
+    const rays = createRays(container, raysAmount, downscale);
+
+
+    animate();
+
+    function animate() {
+      rays.forEach(ray => {
+        ray.angle += angularVelocity;
+        ray.elem.style.transform = `rotate(${ray.angle % 360}deg) scale(${ray.scale})`;
+      });
+      requestAnimationFrame(animate);
+    }
+
+    function createRays(container, amount, downscale) {
+      const rays = [];
+      const rotationStep = 360 / amount;
+      while (amount--) {
+        const angle = rotationStep * amount;
+        const elem = document.createElement('div');
+        elem.className = 'sun-ray';
+        container.appendChild(elem);
+
+        let scale = 1;
+        if (downscale) {
+          const origWidth = elem.offsetWidth, origHeight = elem.offsetHeight;
+          const width = origWidth * (1 - downscale);
+          const height = origHeight * (1 - downscale);
+          elem.style.width = width + 'px';
+          elem.style.height = height + 'px';
+          scale = origWidth / width;
+        }
+
+        rays.push({ elem, angle, scale });
+      }
+      return rays;
+    }
+  </script>
+</body>
+<script id="delayed-lcp">
+  setTimeout(() => {
+    document.body.insertAdjacentHTML('beforeend', '<h1>Content</h1>');
+  }, 2000);
+</script>
+</html>
