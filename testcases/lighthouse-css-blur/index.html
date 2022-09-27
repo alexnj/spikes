@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    @keyframes b4-anim {
+      0% { opacity: 0; }
+      66% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    
+    @keyframes b3-anim {
+      0% { opacity: 0; }
+      33% { opacity: 0; }
+      66% { opacity: 1; }
+      99% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    
+    @keyframes b2-anim {
+      0% { opacity: 0; }
+      33% { opacity: 1; }
+      66% { opacity: 1; }
+      67% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    
+    @keyframes b1-anim {
+      0% { opacity: 1; }
+      33% { opacity: 1; }
+      34% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    
+    body {
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+    
+    h1 {
+      color: white;
+      color: #ccc;
+      position: absolute;
+      left: 10%;
+      top: 70%;
+      font-size: 354%;
+      font-family: arial;
+      font-style: normal;
+      font-weight: bold;      
+    }
+
+    img, div {
+      width: 100vmin;
+      height: 100vmin;
+    }
+    
+    img {
+      position: absolute;
+      top: 5px;
+    }
+    
+    #b1 {
+      animation: b1-anim 0.2s infinite alternate linear;
+    }
+    
+    #b2 {
+      animation: b2-anim 0.2s infinite alternate linear;
+    }
+    
+    #b3 {
+      animation: b3-anim 0.2s infinite alternate linear;
+    }
+    
+    #b4 {
+      animation: b4-anim 0.2s infinite alternate linear;
+    }
+    </style>
+  </head>
+  <body>
+    <div id='container' style='will-change:transform;'>
+      <div id='b1'>
+       <img style='filter: blur(0px);' src='https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg'/>
+      </div>
+      <div id='b2'>
+       <img style='filter: blur(8px);' src='https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg'/>
+      </div>
+        <div id='b3'>
+       <img style='filter: blur(16px);' src='https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg'/>
+      </div>
+        <div id='b4'>
+       <img style='filter: blur(32px);' src='https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg'/>
+      </div>
+    </div>
+  </body>
+  <script id="delayed-lcp">
+    setTimeout(() => {
+      document.body.insertAdjacentHTML('beforeend', '<h1>Content</h1>');
+    }, 2000);
+  </script>
+</html>
