@@ -1,0 +1,15 @@
+{
+  "name": "lighthouse-bisect",
+  "version": "1.0.0",
+  "description": "",
+  "main": "verify-fullpagescreenshot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex N. Jose",
+  "license": "MIT",
+  "dependencies": {
+    "chrome-launcher": "^0.15.1",
+    "image-size": "^1.0.2"
+  }
+}
