@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+
+<body>
+  <h1>A page with vivid images</h1>
+  <p>... that are all differently loaded.</p>
+  <p>LCP scenarios: LCP is, </p>
+  <ul>
+    <li><a href="/">home</a></li>
+    <li><a href="/text.html">text</a></li>
+    <li><a href="/html-image.html">img within html</a></li>
+    <li><a href="/document-write-image.html">img within sync inline script via document.write</a></li>
+    <li><a href="/img-script-inline.html">img within sync inline script</a></li>
+    <li><a href="/img-script.html">img within sync script</a></li>
+    <li><a href="/img-async-1stlevel.html">img within 1st level async script</a></li>
+  </ul>
+  <img src="https://placehold.co/600x400?text=HTML+parser+image">
+  <script>
+    document.write('<img src="https://placehold.co/600x400?text=synchronous+\n+document.write+\n+image">');
+  </script>
+  <script>
+    const img = document.createElement('img');
+    img.src = "https://placehold.co/600x400?text=synchronously+\n+placed+image+\n+by+inline+script";
+    document.body.appendChild(img);
+  </script>
+</body>
+<script src="./sync-script.js"></script>
+<script src="./async-1st-script.js"></script>
+
+</html>
