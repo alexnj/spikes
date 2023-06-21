@@ -20,5 +20,11 @@
     <li><a href="/img-script.html">img within sync script</a></li>
     <li><a href="/img-async-1stlevel.html">img within 1st level async script</a></li>
   </ul>
+  <script>
+    const img = document.createElement('img');
+    img.src = "https://placehold.co/600x400?text=synchronously+\n+placed+image+\n+by+inline+script";
+    document.body.appendChild(img);
+  </script>
+</body>
 
 </html>
