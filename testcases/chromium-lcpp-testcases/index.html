@@ -20,6 +20,12 @@
     <li><a href="/img-script.html">img within sync script</a></li>
     <li><a href="/img-async-1stlevel.html">img within 1st level async script</a></li>
   </ul>
+  <p>additional corner case tests</p>
+  <ul>
+    <li><a href="/img-script-removal-case.html">img within sync script, but script removed from dom prior to lcp</a>
+    </li>
+  </ul>
+
   <img src="https://placehold.co/600x400?text=HTML+parser+image">
   <script>
     document.write('<img src="https://placehold.co/600x400?text=synchronous+\n+document.write+\n+image">');

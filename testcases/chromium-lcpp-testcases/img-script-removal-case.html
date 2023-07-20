@@ -14,5 +14,13 @@
   <ul>
     <li><a href="/">home</a></li>
   </ul>
+</body>
+<script id="momentary" src="./sync-script.js"></script>
+<!-- next script will attempt removing the script that places lcp image element,
+  while still holding rendering lcp hostage -->
+<script type="text/javascript">
+  document.getElementById('momentary').remove();
+</script>
+<!-- free to fire lcp, but creator of lcp element has disappeared -->
 
 </html>
