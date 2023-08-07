@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+
+<body>
+  <h1>LCP image inserted by a second async script</h1>
+  <ul>
+    <li><a href="/">home</a></li>
+  </ul>
+</body>
+<script src="./script-that-created-img.js"></script>
+<script src=" ./script-that-placed-img.js" async></script>
+
+</html>
