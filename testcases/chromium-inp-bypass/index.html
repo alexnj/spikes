@@ -10,6 +10,36 @@
       display: none;
     }
   </style>
+  <script>
+    preserved_Window_addEventListener = document.addEventListener;
+    preserved_Node_addEventListener = Node.prototype.addEventListener;
+
+    window.addEventListener = function _window_addEventListener(event, listener, ...rest) {
+      console.log('bypassed window.addEventListener for', event)
+      if (typeof listener == 'function') {
+        listener = yieldedListener(event, listener)
+      }
+      preserved_Window_addEventListener.call(window, event, listener, ...rest)
+    }
+
+    Node.prototype.addEventListener = function _Node_addEventListener(event, listener, ...rest) {
+      console.log('bypassed Node.addEventListener for', event);
+      if (typeof listener == 'function') {
+        listener = yieldedListener(event, listener)
+      }
+      preserved_Node_addEventListener.call(this, event, listener, ...rest)
+    }
+
+    function yieldedListener(event, fn) {
+      return function _yieldedListener(...args) {
+        console.log('yielding an event handler for', event);
+        setTimeout(() => {
+          console.log('resuming yielded event handler for', event);
+          fn.call(this, ...args);
+        })
+      }
+    }
+  </script>
 </head>
 
 <body>
