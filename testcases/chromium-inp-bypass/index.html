@@ -34,25 +34,40 @@
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
 
+    // https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/core/timing/window_performance.cc;l=175
+    const INP_EVENTS =
+      [
+        'input',
+        'keydown', 'keyup',
+        'click',
+        'pointerup', 'pointerdown', 'pointercancel',
+        'compositionstart', 'compositionend',
+      ];
+
     if (params.get('bypass') == 1) {
       document.documentElement.classList.add('bypass');
 
       window.addEventListener = function _window_addEventListener(event, listener, ...rest) {
-        console.log('bypassed window.addEventListener for', event)
-        if (typeof listener == 'function') {
-          listener = yieldedListener(event, listener)
+        if (INP_EVENTS.includes(event.toLowerCase())) {
+          console.log('bypassed window.addEventListener for', event)
+          if (typeof listener == 'function') {
+            listener = yieldedListener(event, listener)
+          }
         }
         preserved_Window_addEventListener.call(window, event, listener, ...rest)
       }
 
       Node.prototype.addEventListener = function _Node_addEventListener(event, listener, ...rest) {
-        console.log('bypassed Node.addEventListener for', event);
-        if (typeof listener == 'function') {
-          listener = yieldedListener(event, listener)
+        if (INP_EVENTS.includes(event.toLowerCase())) {
+          console.log('bypassed Node.addEventListener for', event);
+          if (typeof listener == 'function') {
+            listener = yieldedListener(event, listener)
+          }
         }
         preserved_Node_addEventListener.call(this, event, listener, ...rest)
       }
     }
+
     function yieldedListener(event, fn) {
       return function _yieldedListener(...args) {
         console.log('yielding an event handler for', event);
@@ -82,7 +97,7 @@
   <script>
     function blockSome() {
       for (let i = 0; i < 100000; i++) {
-        for (let j = 0; j < 10000; j++);
+        for (let j = 0; j < 50000; j++);
       }
     }
 
