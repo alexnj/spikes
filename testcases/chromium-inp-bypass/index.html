@@ -9,27 +9,50 @@
     .hidden {
       display: none;
     }
+
+    .status_en {
+      display: none;
+    }
+
+    .status_di {
+      display: block;
+    }
+
+    .bypass .status_en {
+      display: block;
+    }
+
+    .bypass .status_di {
+      display: none;
+    }
   </style>
   <script>
+    // selective bypass impl of inp yielding mechanism.
+
     preserved_Window_addEventListener = document.addEventListener;
     preserved_Node_addEventListener = Node.prototype.addEventListener;
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
 
-    window.addEventListener = function _window_addEventListener(event, listener, ...rest) {
-      console.log('bypassed window.addEventListener for', event)
-      if (typeof listener == 'function') {
-        listener = yieldedListener(event, listener)
+    if (params.get('bypass') == 1) {
+      document.documentElement.classList.add('bypass');
+
+      window.addEventListener = function _window_addEventListener(event, listener, ...rest) {
+        console.log('bypassed window.addEventListener for', event)
+        if (typeof listener == 'function') {
+          listener = yieldedListener(event, listener)
+        }
+        preserved_Window_addEventListener.call(window, event, listener, ...rest)
       }
-      preserved_Window_addEventListener.call(window, event, listener, ...rest)
-    }
 
-    Node.prototype.addEventListener = function _Node_addEventListener(event, listener, ...rest) {
-      console.log('bypassed Node.addEventListener for', event);
-      if (typeof listener == 'function') {
-        listener = yieldedListener(event, listener)
+      Node.prototype.addEventListener = function _Node_addEventListener(event, listener, ...rest) {
+        console.log('bypassed Node.addEventListener for', event);
+        if (typeof listener == 'function') {
+          listener = yieldedListener(event, listener)
+        }
+        preserved_Node_addEventListener.call(this, event, listener, ...rest)
       }
-      preserved_Node_addEventListener.call(this, event, listener, ...rest)
     }
-
     function yieldedListener(event, fn) {
       return function _yieldedListener(...args) {
         console.log('yielding an event handler for', event);
@@ -39,20 +62,25 @@
         })
       }
     }
+
   </script>
 </head>
 
 <body>
   <h1>A page that has INP issues</h1>
 
+  <p class="status_en">Page is running in INP bypass mode. <a href="?bypass=0">Disable bypass?</a></p>
+  <p class="status_di">Page is not running in bypass mode. We have INP issues! <a href="?bypass=1">Run bypass?</a></p>
+
   <ul>
     <li id="demo1">
-      CTA 1: A button that drops down a status change. <button id="cta">Click to drop</button>
+      CTA 1: A button that drops down a status change after blocking main thread sufficiently. <button id="cta">Click to
+        drop</button>
       <span class="response hidden">You've got a contentful-interaction!</span>
     </li>
   </ul>
   <script>
-    function letsINP() {
+    function blockSome() {
       for (let i = 0; i < 100000; i++) {
         for (let j = 0; j < 10000; j++);
       }
@@ -60,7 +88,7 @@
 
     // item 1
     document.getElementById('cta').addEventListener('click', () => {
-      letsINP();
+      blockSome();
       document.querySelector('#demo1 .response')?.classList.remove('hidden');
     });
 
