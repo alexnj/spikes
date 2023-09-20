@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>A page that has INP issues</h1>
+
+  <ul>
+    <li id="demo1">
+      CTA 1: A button that drops down a status change. <button id="cta">Click to drop</button>
+      <span class="response hidden">You've got a contentful-interaction!</span>
+    </li>
+  </ul>
+  <script>
+    function letsINP() {
+      for (let i = 0; i < 100000; i++) {
+        for (let j = 0; j < 10000; j++);
+      }
+    }
+
+    // item 1
+    document.getElementById('cta').addEventListener('click', () => {
+      letsINP();
+      document.querySelector('#demo1 .response')?.classList.remove('hidden');
+    });
+
+  </script>
+</body>
+
+</html>
