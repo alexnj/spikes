@@ -18,16 +18,16 @@
       display: block;
     }
 
-    .bypass .status_en {
+    .game .status_en {
       display: block;
     }
 
-    .bypass .status_di {
+    .game .status_di {
       display: none;
     }
   </style>
   <script>
-    // selective bypass impl of inp yielding mechanism.
+    // selective game impl of inp yielding mechanism.
 
     preserved_Window_addEventListener = document.addEventListener;
     preserved_Node_addEventListener = Node.prototype.addEventListener;
@@ -44,8 +44,8 @@
         'compositionstart', 'compositionend',
       ];
 
-    if (params.get('bypass') == 1) {
-      document.documentElement.classList.add('bypass');
+    if (params.get('game') == 1) {
+      document.documentElement.classList.add('game');
 
       window.addEventListener = function _window_addEventListener(event, listener, ...rest) {
         if (INP_EVENTS.includes(event.toLowerCase())) {
@@ -79,6 +79,7 @@
     }
 
   </script>
+  <!-- <script src="scripts/colorful-inp.js"></script> -->
   <script>
     (function () {
       var script = document.createElement('script');
@@ -95,8 +96,8 @@
 <body>
   <h1>A page that has INP issues, ... or not?</h1>
 
-  <p class="status_en">Page is running in INP bypass mode. <a href="?bypass=0">Disable bypass?</a></p>
-  <p class="status_di">Page is not running in bypass mode. We have INP issues! <a href="?bypass=1">Run bypass?</a></p>
+  <p class="status_en">Page is running in game INP mode. <a href="?game=0">Disable it?</a></p>
+  <p class="status_di">Page is NOT running in INP game mode. We have INP issues! <a href="?game=1">Game INP?</a></p>
 
   <ul>
     <li id="demo1">
@@ -108,7 +109,7 @@
   <script>
     function blockSome() {
       for (let i = 0; i < 100000; i++) {
-        for (let j = 0; j < 50000; j++);
+        for (let j = 0; j < 20000; j++);
       }
     }
 
@@ -119,8 +120,9 @@
     });
 
   </script>
+  <p>Check console for web-vitals INP metrics.</p>
   <p style="font-size: 0.8em;"><a
-      href="https://github.com/alexnj/spikes/blob/main/testcases/chromium-inp-bypass/index.html">Code for this demo is
+      href="https://github.com/alexnj/spikes/blob/main/testcases/chromium-game-inp/index.html">Code for this demo is
       here
     </a></p>
 </body>
