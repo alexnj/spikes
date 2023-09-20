@@ -71,10 +71,21 @@
     function yieldedListener(event, fn) {
       return function _yieldedListener(...args) {
         console.log('yielding an event handler for', event);
-        setTimeout(() => {
-          console.log('resuming yielded event handler for', event);
-          fn.call(this, ...args);
-        })
+        if (params.get('useRaf')) {
+          requestAnimationFrame(() => {
+            console.log('yielded for raf', event);
+            setTimeout(() => {
+              console.log('resuming yielded event handler for', event);
+              fn.call(this, ...args);
+            }, 0);
+          });
+        }
+        else {
+          setTimeout(() => {
+            console.log('resuming yielded event handler for', event);
+            fn.call(this, ...args);
+          }, 0);
+        }
       }
     }
 
